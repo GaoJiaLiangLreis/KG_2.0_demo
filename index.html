@@ -23,19 +23,19 @@
     $.get('./KG2.0.gexf', function (xml) {
         myChart.hideLoading();
         var graph = echarts.dataTool.gexf.parse(xml);
-        var categories = {};
+        var categories = {{name: "attraction"}, {name: "user"}, {name: "label"}};
+
         graph.nodes.forEach(function (node) {
             node.itemStyle = null;
             node.value = node.symbolSize;
-            node.symbolSize /= 1.5;
+            node.symbolSize /= 0.95;
             node.colorAlpha /= 0.3;
             node.label = {
                 normal: {
-                    show: node.symbolSize > 20
+                    show: node.symbolSize >= 10
                 }
             };
             node.category = node.attributes.modularity_class;
-            categories[node.category] = 1;
         });
         var option = {
             title: {
@@ -70,7 +70,10 @@
             tooltip: {},
             legend: [{
                 // selectedMode: 'single',
-                data: Object.keys(categories)
+                // data: Object.keys(categories)
+                data: categories.map(function (a) {
+                    return a.name;
+                    })
             }],
             animationDuration: 1500,
             animationEasingUpdate: 'quinticInOut',
@@ -107,7 +110,7 @@
                     lineStyle: {
                         color: 'source',
                         opacity: 0.7,
-                        curveness: curveness
+                        curveness: 0.1
                     },
                     emphasis: {
                         lineStyle: {
@@ -122,7 +125,7 @@
     function button_onclick(){
         layout_show = 'circular';
         curveness = '0.3';
-            $.get('./KG1.6.gexf', function (xml) {
+            $.get('./KG2.0.gexf', function (xml) {
         myChart.hideLoading();
         var graph = echarts.dataTool.gexf.parse(xml);
         var categories = {};
