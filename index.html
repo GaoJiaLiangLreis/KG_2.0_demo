@@ -23,7 +23,7 @@
     $.get('./KG2.0.gexf', function (xml) {
         myChart.hideLoading();
         var graph = echarts.dataTool.gexf.parse(xml);
-        var categories = {{name: "attraction"}, {name: "user"}, {name: "label"}};
+        var categories = [{name: "attraction"}, {name: "user"}, {name: "label"}];
 
         graph.nodes.forEach(function (node) {
             node.itemStyle = null;
@@ -35,7 +35,7 @@
                     show: node.symbolSize >= 10
                 }
             };
-            node.category = node.attributes.modularity_class;
+            node.category = node.attributes[0];
         });
         var option = {
             title: {
